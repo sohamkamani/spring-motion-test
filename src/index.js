@@ -11,11 +11,19 @@ const canvas = new CanvasSpace({
   ctx,
   canvas: c
 });
-
-for (var i = 0; i < 20; i++) {
+var i;
+for ( i = 0; i < 10; i++) {
   canvas.addObject(new SquareJumper({
     x: 10 + 40 * i,
-    y: 10 * i,
+    y: 100 - (i%10 - 5)* 10,
+    width: 40,
+    height: 60
+  }));
+}
+for ( i = 10; i < 20; i++) {
+  canvas.addObject(new SquareJumper({
+    x: 10 + 40 * i,
+    y: 100 - (10 - i%10 - 5)* 10,
     width: 40,
     height: 60
   }));
