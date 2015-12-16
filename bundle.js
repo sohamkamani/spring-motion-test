@@ -402,15 +402,249 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var init = function init() {
-	  window.alert('Working');
-	  console.log('Working...');
+	var _CanvasSpace = __webpack_require__(6);
+
+	var _CanvasSpace2 = _interopRequireDefault(_CanvasSpace);
+
+	var _SquareJumper = __webpack_require__(8);
+
+	var _SquareJumper2 = _interopRequireDefault(_SquareJumper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var c = document.getElementById('myCanvas');
+	var ctx = c.getContext('2d');
+	window.ctx = ctx;
+
+	var canvas = new _CanvasSpace2.default({
+	  ctx: ctx,
+	  canvas: c
+	});
+	var i;
+	for (i = 0; i < 10; i++) {
+	  canvas.addObject(new _SquareJumper2.default({
+	    x: 10 + 40 * i,
+	    y: 100 - (i % 10 - 5) * 10,
+	    width: 40,
+	    height: 60
+	  }));
+	}
+	for (i = 10; i < 20; i++) {
+	  canvas.addObject(new _SquareJumper2.default({
+	    x: 10 + 40 * i,
+	    y: 100 - (10 - i % 10 - 5) * 10,
+	    width: 40,
+	    height: 60
+	  }));
+	}
+	canvas.paint();
+
+	setInterval(function () {
+	  canvas.update();
+	  canvas.paint();
+	}, 20);
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _objectAssign = __webpack_require__(7);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CanvasSpace = function CanvasSpace(options) {
+	  var self = this;
+	  self.drawObjects = [];
+	  (0, _objectAssign2.default)(self, options);
 	};
-	init();
+
+	module.exports = CanvasSpace;
+
+	CanvasSpace.prototype.addObject = function (drawObject) {
+	  this.drawObjects.push(drawObject);
+	};
+
+	CanvasSpace.prototype.update = function () {
+	  this.drawObjects.forEach(function (drawObject) {
+	    drawObject.update();
+	  });
+	};
+
+	CanvasSpace.prototype.paint = function () {
+	  var self = this;
+	  self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+	  self.ctx.beginPath();
+	  this.drawObjects.forEach(function (drawObject) {
+	    drawObject.draw(self.ctx);
+	  });
+	  self.ctx.stroke();
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	/* eslint-disable no-unused-vars */
+	'use strict';
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _Square = __webpack_require__(9);
+
+	var _Square2 = _interopRequireDefault(_Square);
+
+	var _SpringMotion = __webpack_require__(10);
+
+	var _SpringMotion2 = _interopRequireDefault(_SpringMotion);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SquareJumper = function SquareJumper(options) {
+	  var self = this;
+	  self.state = {
+	    direction: 'down'
+	  };
+	  self.square = new _Square2.default(options);
+	  self.motion = new _SpringMotion2.default({
+	    center: 100,
+	    s: options.y,
+	    k: 1e-2
+	  });
+	};
+
+	module.exports = SquareJumper;
+
+	SquareJumper.prototype.draw = function (ctx) {
+	  this.square.draw(ctx);
+	};
+
+	SquareJumper.prototype.update = function () {
+	  var square = this.square;
+	  var motion = this.motion;
+	  // let {direction} = this.state;
+	  // if(direction === 'down'){
+	  //   square.y += 1;
+	  // }
+	  // if(direction === 'up'){
+	  //   square.y -= 1;
+	  // }
+	  // if(square.y > 150){
+	  //   this.state.direction = 'up';
+	  // }
+	  // if(square.y <3){
+	  //   this.state.direction = 'down';
+	  // }
+
+	  motion.move();
+	  square.y = motion.s;
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _objectAssign = __webpack_require__(7);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Square = function Square(options) {
+	  var self = this;
+	  (0, _objectAssign2.default)(self, options);
+	};
+
+	module.exports = Square;
+
+	Square.prototype.draw = function (ctx) {
+	  var self = this;
+	  ctx.rect(self.x, self.y, self.width, self.height);
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _objectAssign = __webpack_require__(7);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SpringMotion = function SpringMotion(options) {
+	  (0, _objectAssign2.default)(this, options);
+	};
+
+	module.exports = SpringMotion;
+
+	SpringMotion.prototype.move = function () {
+	  var a = this.a;
+	  var v = this.v;
+	  var s = this.s;
+	  var center = this.center;
+	  var k = this.k;
+
+	  v = v || 0;
+	  var distanceFromCenter = center - s;
+	  a = k * distanceFromCenter;
+	  v += a;
+	  s += v;
+	  (0, _objectAssign2.default)(this, { a: a, v: v, s: s });
+	};
 
 /***/ }
 /******/ ]);
