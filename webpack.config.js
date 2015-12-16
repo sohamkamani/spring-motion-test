@@ -1,7 +1,10 @@
 module.exports = {
+  debug: true,
+  devtool: 'inline-source-map',
   entry: './main.js',
   output: {
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    sourceMapFilename: 'bundle.js.map'
   },
   module: {
     loaders: [{

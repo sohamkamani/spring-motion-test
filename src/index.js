@@ -12,22 +12,23 @@ const canvas = new CanvasSpace({
   canvas: c
 });
 var i;
-for ( i = 0; i < 10; i++) {
+for ( i = 0; i < 1; i++) {
   canvas.addObject(new SquareJumper({
     x: 10 + 40 * i,
     y: 100 - (i%10 - 5)* 10,
     width: 40,
-    height: 60
+    height: 60,
+    maxX : c.width
   }));
 }
-for ( i = 10; i < 20; i++) {
-  canvas.addObject(new SquareJumper({
-    x: 10 + 40 * i,
-    y: 100 - (10 - i%10 - 5)* 10,
-    width: 40,
-    height: 60
-  }));
-}
+// for ( i = 10; i < 20; i++) {
+//   canvas.addObject(new SquareJumper({
+//     x: 10 + 40 * i,
+//     y: 100 - (10 - i%10 - 5)* 10,
+//     width: 40,
+//     height: 60
+//   }));
+// }
 canvas.paint();
 
 setInterval(() => {
