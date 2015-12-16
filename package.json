@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "replace-scripts:dev":"sed -i.bak s/bundle.min.js/bundle.js/g  index.html && rm index.html.bak",
-    "replace-scripts:build":"sed -i.bak s/bundle.js/bundle.min.js/g  index.html && rm index.html.bak",
+    "replace-scripts:dev": "sed -i.bak s/bundle.min.js/bundle.js/g  index.html && rm index.html.bak",
+    "replace-scripts:build": "sed -i.bak s/bundle.js/bundle.min.js/g  index.html && rm index.html.bak",
     "start": "npm run replace-scripts:dev && open http://localhost:8080 && webpack-dev-server --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run replace-scripts:build && webpack && uglify -s ./bundle.js -o ./bundle.min.js"
@@ -23,5 +23,10 @@
     "uglify": "^0.1.5",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "d3": "^3.5.11",
+    "object-assign": "^4.0.1",
+    "trolol": "^1.12.0"
   }
 }

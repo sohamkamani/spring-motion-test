@@ -1,0 +1,14 @@
+'use strict';
+import assign from 'object-assign';
+
+let Square = function (options) {
+  let self = this;
+  assign(self, options);
+};
+
+module.exports = Square;
+
+Square.prototype.draw = function (ctx) {
+  let self = this;
+  ctx.rect(self.x, self.y, self.width, self.height);
+};
