@@ -10,5 +10,7 @@ module.exports = Square;
 
 Square.prototype.draw = function (ctx) {
   let self = this;
+  ctx.fillStyle = 'black';
   ctx.rect(self.x, self.y, self.width, self.height);
+  ctx.fill();
 };
